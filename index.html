@@ -201,8 +201,14 @@
 
             /* Form adjustments */
             form {
-                padding: 2rem 1.5rem !important;
+                padding: 2rem 1rem !important;
                 text-align: left !important;
+            }
+
+            /* Card adjustments for mobile */
+            .card {
+                padding: 1.5rem 1rem !important;
+                margin: 0 0.5rem !important;
             }
 
             /* Text alignment for mobile */
@@ -264,9 +270,8 @@
                 gap: 1.5rem !important;
             }
 
-            /* Fix bullet point alignment on mobile - but keep checkmark boxes centered */
+            /* Fix bullet point alignment on mobile - but keep Early Access Benefits checkboxes centered */
             .card div[style*="display: flex"][style*="align-items: center"] {
-                align-items: flex-start !important;
                 text-align: left !important;
             }
 
@@ -274,12 +279,16 @@
                 text-align: left !important;
             }
 
-            /* Keep all icon boxes properly centered */
+            /* Override: Keep Early Access Benefits checkboxes center-aligned */
+            #waitlist .card div[style*="display: flex"][style*="align-items: center"] {
+                align-items: center !important;
+            }
+
+            /* Keep all icon boxes properly centered within themselves */
             .card div[style*="display: flex"] div[style*="display: flex"][style*="justify-content: center"],
             .card div[style*="display: flex"] div[style*="background:"][style*="border-radius"],
             .card div[style*="display: flex"] div[class*="gradient"] {
                 align-items: center !important;
-                align-self: flex-start !important;
             }
         }
 
@@ -305,7 +314,12 @@
             }
 
             form {
-                padding: 1.5rem 1rem !important;
+                padding: 1.5rem 0.75rem !important;
+            }
+
+            .card {
+                padding: 1.25rem 0.75rem !important;
+                margin: 0 0.25rem !important;
             }
 
             /* Extra small navigation fixes */
