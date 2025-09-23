@@ -143,12 +143,11 @@ exports.handler = async (event, context) => {
     console.log('Admin notification sent:', adminNotification);
 
     return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Form submitted successfully',
-        welcomeEmailId: welcomeEmail.id,
-        adminEmailId: adminNotification.id
-      })
+      statusCode: 302,
+      headers: {
+        Location: '/success'
+      },
+      body: ''
     };
 
   } catch (error) {
