@@ -220,10 +220,33 @@
                 font-size: 16px !important; /* Prevents zoom on iOS */
             }
 
-            /* Navigation if exists */
-            .nav {
-                flex-direction: column !important;
+            /* Navigation adjustments */
+            nav .container {
+                padding: 0 1rem !important;
+                height: auto !important;
+                min-height: 4rem !important;
+                flex-wrap: wrap !important;
                 gap: 1rem !important;
+            }
+
+            /* Header button specific fixes */
+            nav .btn-primary {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.75rem !important;
+                width: auto !important;
+                max-width: none !important;
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* Logo/brand adjustments */
+            nav .gradient-text-cyan-blue {
+                font-size: 1.25rem !important;
+            }
+
+            /* Navigation links */
+            .nav-links {
+                display: none !important;
             }
 
             /* Card spacing */
@@ -260,6 +283,20 @@
 
             form {
                 padding: 1.5rem 1rem !important;
+            }
+
+            /* Extra small navigation fixes */
+            nav .btn-primary {
+                padding: 0.375rem 0.75rem !important;
+                font-size: 0.7rem !important;
+            }
+
+            nav .gradient-text-cyan-blue {
+                font-size: 1.1rem !important;
+            }
+
+            nav .container {
+                min-height: 3.5rem !important;
             }
         }
         
