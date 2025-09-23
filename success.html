@@ -189,17 +189,69 @@
             font-weight: 700;
         }
 
-        @media (max-width: 768px) {
+        /* Mobile Responsive Design - Below 900px */
+        @media (max-width: 900px) {
+            .container {
+                padding: 1.5rem;
+                text-align: left !important;
+            }
+
+            h1 {
+                font-size: 2rem !important;
+                text-align: center !important;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                text-align: center !important;
+            }
+
+            .logo {
+                text-align: center !important;
+            }
+
+            .success-icon {
+                margin: 0 auto 1.5rem !important;
+            }
+
+            .next-steps {
+                text-align: left !important;
+            }
+
+            .next-steps h3 {
+                text-align: center !important;
+            }
+
+            .btn {
+                width: 100% !important;
+                margin: 0.5rem 0 !important;
+                padding: 1rem 1.5rem !important;
+                font-size: 1rem !important;
+                justify-content: center !important;
+            }
+
+            .social-proof {
+                text-align: center !important;
+            }
+        }
+
+        /* Extra small screens - Below 480px */
+        @media (max-width: 480px) {
             .container {
                 padding: 1rem;
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 1.75rem !important;
             }
 
             .subtitle {
-                font-size: 1.1rem;
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 0.875rem 1.25rem !important;
+                font-size: 0.9rem !important;
             }
         }
     </style>

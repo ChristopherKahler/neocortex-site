@@ -143,18 +143,123 @@
         .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
         .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
         
-        @media (max-width: 768px) {
+        /* Mobile Responsive Design - Below 900px */
+        @media (max-width: 900px) {
+            /* Force all grids to single column */
             .grid-cols-2, .grid-cols-3 {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
             }
-            .section-padding {
-                padding: 4rem 1rem;
-            }
+
+            /* Reduce header sizes */
             h1 {
-                font-size: 3rem;
+                font-size: 2.5rem !important;
+                line-height: 1.1;
             }
             h2 {
-                font-size: 2.5rem;
+                font-size: 2rem !important;
+                line-height: 1.2;
+            }
+            h3 {
+                font-size: 1.5rem !important;
+                line-height: 1.3;
+            }
+
+            /* Adjust padding for mobile */
+            .section-padding {
+                padding: 3rem 1.5rem !important;
+            }
+
+            /* Fix button sizing */
+            .btn-primary, .btn-outline {
+                padding: 1rem 1.5rem !important;
+                font-size: 1rem !important;
+                width: 100% !important;
+                max-width: none !important;
+                justify-content: center !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.5rem !important;
+            }
+
+            /* Container adjustments */
+            .container {
+                max-width: 100% !important;
+                padding: 0 1rem !important;
+            }
+
+            /* Hero section adjustments */
+            .hero-section {
+                text-align: left !important;
+                padding: 2rem 1rem 3rem !important;
+            }
+
+            /* Form adjustments */
+            form {
+                padding: 2rem 1.5rem !important;
+                text-align: left !important;
+            }
+
+            /* Text alignment for mobile */
+            .section-padding {
+                text-align: left !important;
+            }
+
+            /* Bullet points and lists */
+            ul, ol {
+                text-align: left !important;
+                padding-left: 1.5rem !important;
+            }
+
+            /* Center align only specific elements that should stay centered */
+            .logo, .brand {
+                text-align: center !important;
+            }
+
+            .form-input, .form-checkbox {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+            }
+
+            /* Navigation if exists */
+            .nav {
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+
+            /* Card spacing */
+            .card {
+                margin-bottom: 1.5rem;
+            }
+
+            /* Reduce excessive whitespace */
+            .grid {
+                gap: 1.5rem !important;
+            }
+        }
+
+        /* Extra small screens - Below 480px */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem !important;
+            }
+            h2 {
+                font-size: 1.75rem !important;
+            }
+            h3 {
+                font-size: 1.25rem !important;
+            }
+
+            .section-padding {
+                padding: 2rem 1rem !important;
+            }
+
+            .btn-primary, .btn-outline {
+                padding: 0.875rem 1.25rem !important;
+                font-size: 0.9rem !important;
+            }
+
+            form {
+                padding: 1.5rem 1rem !important;
             }
         }
         
