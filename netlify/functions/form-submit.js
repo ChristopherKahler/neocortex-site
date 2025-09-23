@@ -16,11 +16,14 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // Parse the form data
-    const formData = JSON.parse(event.body);
+    // Parse the form data (HTML forms send URL-encoded data, not JSON)
+    const params = new URLSearchParams(event.body);
 
     // Extract form fields
-    const { name, email, uses_claude_code, consent_emails } = formData;
+    const name = params.get('name');
+    const email = params.get('email');
+    const uses_claude_code = params.get('uses_claude_code');
+    const consent_emails = params.get('consent_emails');
 
     // Validate required fields
     if (!name || !email || !uses_claude_code || !consent_emails) {
