@@ -9,13 +9,12 @@
   # Enable form detection
   spam_threshold = 1
 
-# Redirect rules
-[[redirects]]
-  # Handle SPA-style navigation (if needed later)
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Accept = "text/html"}
+# Redirect rules - Remove catch-all that breaks success page
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
+#   conditions = {Accept = "text/html"}
 
 # Headers for security and performance
 [[headers]]

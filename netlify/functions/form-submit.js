@@ -112,7 +112,7 @@ exports.handler = async (event, context) => {
 
     // Send welcome email via Resend
     const welcomeEmail = await resend.emails.send({
-      from: 'NeoCortex AI <noreply@neocortexai.dev>',
+      from: 'NeoCortex AI <noreply@mail.neocortexai.dev>',
       to: email,
       subject: '🧠 Welcome to NeoCortex AI Early Access!',
       html: welcomeEmailHtml
@@ -120,8 +120,8 @@ exports.handler = async (event, context) => {
 
     // Send admin notification
     const adminNotification = await resend.emails.send({
-      from: 'NeoCortex AI Waitlist <noreply@neocortexai.dev>',
-      to: 'chris@neocortexai.dev',
+      from: 'NeoCortex AI Waitlist <noreply@mail.neocortexai.dev>',
+      to: process.env.ADMIN_EMAIL || 'chris@neocortexai.dev',
       subject: `🎯 New Waitlist Signup: ${email}`,
       html: `
         <div style="font-family: 'Monaco', 'Menlo', monospace; max-width: 600px; margin: 0 auto; padding: 20px; background: #1e293b; color: #e2e8f0;">
