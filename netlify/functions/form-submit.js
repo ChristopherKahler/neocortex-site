@@ -50,15 +50,15 @@ exports.handler = async (event, context) => {
     // Claude Code specific message
     const claudeCodeMessage = isClaudeCodeUser
       ? `
-        <div style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0; border-radius: 8px;">
-          <p style="margin: 0; color: #22c55e; font-weight: bold;">🎯 Claude Code User Detected!</p>
-          <p style="margin: 5px 0 0 0; font-size: 14px;">You're going to love what we've built for power users like you. NeoCortex AI will supercharge your existing Claude Code workflow with persistent memory and web accessibility.</p>
+        <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.2); padding: 20px; margin: 24px 0; border-radius: 12px;">
+          <p style="margin: 0; color: #22c55e; font-weight: 600; font-size: 16px;">Claude Code User Detected!</p>
+          <p style="margin: 8px 0 0 0; font-size: 14px; color: #94a3b8; line-height: 1.5;">You're going to love what we've built for power users like you. NeoCortex AI will supercharge your existing Claude Code workflow with persistent memory and web accessibility.</p>
         </div>
       `
       : `
-        <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 8px;">
-          <p style="margin: 0; color: #3b82f6; font-weight: bold;">🚀 New to Claude Code?</p>
-          <p style="margin: 5px 0 0 0; font-size: 14px;">Perfect timing! NeoCortex AI makes Claude Code accessible to everyone with a beautiful web interface. We'll help you get started with the most powerful AI development tool available.</p>
+        <div style="background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2); padding: 20px; margin: 24px 0; border-radius: 12px;">
+          <p style="margin: 0; color: #3b82f6; font-weight: 600; font-size: 16px;">New to Claude Code?</p>
+          <p style="margin: 8px 0 0 0; font-size: 14px; color: #94a3b8; line-height: 1.5;">Perfect timing! NeoCortex AI makes Claude Code accessible to everyone with a beautiful web interface. We'll help you get started with the most powerful AI development tool available.</p>
         </div>
       `;
 
@@ -66,14 +66,17 @@ exports.handler = async (event, context) => {
     const welcomeEmailHtml = `
       <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: white; padding: 40px 20px;">
         <div style="text-align: center; margin-bottom: 40px;">
-          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #06b6d4, #3b82f6); border-radius: 12px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
-            <span style="font-size: 30px;">🧠</span>
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #06b6d4, #3b82f6); border-radius: 16px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(6, 182, 212, 0.3);">
+            <div style="width: 32px; height: 32px; background: white; border-radius: 8px; position: relative;">
+              <div style="position: absolute; top: 6px; left: 6px; width: 20px; height: 20px; background: linear-gradient(135deg, #06b6d4, #3b82f6); border-radius: 4px;"></div>
+            </div>
           </div>
-          <h1 style="background: linear-gradient(135deg, #06b6d4, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; margin: 0; font-weight: bold;">NeoCortex AI</h1>
+          <h1 style="background: linear-gradient(135deg, #06b6d4, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 32px; margin: 0; font-weight: bold; letter-spacing: -0.5px;">NeoCortex AI</h1>
+          <p style="color: #64748b; font-size: 16px; margin: 8px 0 0; font-weight: 500;">Transform Claude Code Into Your AI Command Center</p>
         </div>
 
-        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid #334155; border-radius: 16px; padding: 30px; margin-bottom: 30px;">
-          <h2 style="color: #06b6d4; font-size: 24px; margin-bottom: 20px;">🚀 ${greeting} Welcome to the Future of AI Development!</h2>
+        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid #334155; border-radius: 16px; padding: 32px; margin-bottom: 32px;">
+          <h2 style="color: #06b6d4; font-size: 28px; margin-bottom: 20px; font-weight: 700; line-height: 1.2;">${greeting} Welcome to Early Access!</h2>
 
           <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
             Thank you for joining the <strong>NeoCortex AI early access waitlist</strong>! You're now part of an exclusive group that will transform Claude Code into the ultimate AI command center.
@@ -81,14 +84,38 @@ exports.handler = async (event, context) => {
 
           ${claudeCodeMessage}
 
-          <div style="background: rgba(6, 182, 212, 0.1); border-left: 4px solid #06b6d4; padding: 20px; margin: 20px 0; border-radius: 8px;">
-            <h3 style="color: #06b6d4; font-size: 18px; margin-bottom: 15px;">What You Can Expect:</h3>
-            <ul style="margin: 0; padding-left: 20px;">
-              <li style="margin-bottom: 8px;">🧠 <strong>Persistent Memory:</strong> AI that remembers across sessions</li>
-              <li style="margin-bottom: 8px;">🖥️ <strong>Web GUI:</strong> Claude Code without terminal intimidation</li>
-              <li style="margin-bottom: 8px;">⚡ <strong>ANCIS Intelligence:</strong> Sub-10ms codebase understanding</li>
-              <li style="margin-bottom: 8px;">🎯 <strong>First Access:</strong> Be among the first to experience the magic</li>
-            </ul>
+          <div style="background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.2); padding: 24px; margin: 24px 0; border-radius: 12px;">
+            <h3 style="color: #06b6d4; font-size: 20px; margin-bottom: 20px; font-weight: 600;">What You Can Expect:</h3>
+            <div style="display: grid; gap: 16px;">
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+                <div>
+                  <strong style="color: #e2e8f0; font-weight: 600;">Persistent Memory</strong>
+                  <p style="color: #94a3b8; margin: 4px 0 0; font-size: 14px; line-height: 1.5;">AI that remembers your context across sessions</p>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+                <div>
+                  <strong style="color: #e2e8f0; font-weight: 600;">Web Interface</strong>
+                  <p style="color: #94a3b8; margin: 4px 0 0; font-size: 14px; line-height: 1.5;">Claude Code without terminal intimidation</p>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+                <div>
+                  <strong style="color: #e2e8f0; font-weight: 600;">ANCIS Intelligence</strong>
+                  <p style="color: #94a3b8; margin: 4px 0 0; font-size: 14px; line-height: 1.5;">Sub-10ms codebase understanding and navigation</p>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 6px; height: 6px; background: #06b6d4; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+                <div>
+                  <strong style="color: #e2e8f0; font-weight: 600;">Early Access</strong>
+                  <p style="color: #94a3b8; margin: 4px 0 0; font-size: 14px; line-height: 1.5;">Be among the first to experience the transformation</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
