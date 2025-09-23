@@ -733,9 +733,11 @@
                 </div>
                 
                 <!-- Waitlist Form -->
-                <form name="neocortex-waitlist" method="POST" netlify netlify-honeypot="bot-field" action="/success" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <form name="neocortex-waitlist" method="POST" action="/.netlify/functions/form-submit" style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <!-- Hidden bot field for spam protection -->
                     <input type="hidden" name="bot-field" />
+                    <!-- Ensure Netlify detects form -->
+                    <input type="hidden" name="form-name" value="neocortex-waitlist" />
 
                     <!-- Name Field -->
                     <div>
