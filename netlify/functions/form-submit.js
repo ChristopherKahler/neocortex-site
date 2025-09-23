@@ -147,6 +147,13 @@ exports.handler = async (event, context) => {
 
     // Add contact to Resend audience
     const audienceId = process.env.RESEND_AUDIENCE_ID;
+    console.log('Environment variables check:', {
+      hasApiKey: !!process.env.RESEND_API_KEY,
+      hasAdminEmail: !!process.env.ADMIN_EMAIL,
+      hasAudienceId: !!audienceId,
+      audienceId: audienceId
+    });
+
     if (audienceId) {
       try {
         const contact = await resend.contacts.create({
