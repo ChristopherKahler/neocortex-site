@@ -145,6 +145,9 @@ exports.handler = async (event, context) => {
     console.log('Welcome email sent:', welcomeEmail);
     console.log('Admin notification sent:', adminNotification);
 
+    // Wait 1 second to avoid rate limiting (Resend allows 2 requests per second)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     // Add contact to Resend audience
     const audienceId = process.env.RESEND_AUDIENCE_ID;
     console.log('Environment variables check:', {
