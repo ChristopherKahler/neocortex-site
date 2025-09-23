@@ -145,6 +145,26 @@ exports.handler = async (event, context) => {
     console.log('Welcome email sent:', welcomeEmail);
     console.log('Admin notification sent:', adminNotification);
 
+    // Add contact to Resend audience
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
+    if (audienceId) {
+      try {
+        const contact = await resend.contacts.create({
+          email: email,
+          firstName: name.split(' ')[0], // First part of name
+          lastName: name.split(' ').slice(1).join(' ') || '', // Rest of name
+          unsubscribed: false,
+          audienceId: audienceId,
+        });
+        console.log('Contact added to audience:', contact);
+      } catch (contactError) {
+        console.error('Failed to add contact to audience:', contactError);
+        // Don't fail the whole request if contact creation fails
+      }
+    } else {
+      console.log('No audience ID configured - contact not added to audience');
+    }
+
     return {
       statusCode: 302,
       headers: {
