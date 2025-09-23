@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoCortex AI - Transform Claude Code into Your AI Command Center</title>
+    <meta name="description" content="Transform Claude Code with persistent memory, thinking mechanisms, and web GUI. Join early access waitlist for the AI command center that eliminates context loss and delivers precision outputs.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS for terminal-inspired theme -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-primary: #020617;
+            --bg-secondary: #0f172a;
+            --bg-tertiary: #1e293b;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #64748b;
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --border-color: #334155;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .bg-slate-950 { background-color: var(--bg-primary); }
+        .bg-slate-900 { background-color: var(--bg-secondary); }
+        .bg-slate-800 { background-color: var(--bg-tertiary); }
+        .text-slate-300 { color: var(--text-secondary); }
+        .text-slate-400 { color: var(--text-tertiary); }
+        .border-slate-700 { border-color: var(--border-color); }
+        
+        .gradient-cyan-blue {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+        }
+        
+        .gradient-text-cyan-blue {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card:hover {
+            background: rgba(30, 41, 59, 0.5);
+            transform: translateY(-4px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: var(--bg-primary);
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: transparent;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(6, 182, 212, 0.1);
+        }
+        
+        .section-padding {
+            padding: 6rem 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: var(--bg-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .grid-cols-1 { grid-template-columns: 1fr; }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        
+        @media (max-width: 768px) {
+            .grid-cols-2, .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+            .section-padding {
+                padding: 4rem 1rem;
+            }
+            h1 {
+                font-size: 3rem;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .blur-bg {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.1;
+        }
+
+        /* Form Styles */
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            background: rgba(30, 41, 59, 0.5);
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s, background-color 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .form-input:invalid {
+            border-color: #ef4444;
+        }
+
+        .form-radio {
+            accent-color: var(--accent-cyan);
+        }
+
+        .form-checkbox {
+            accent-color: var(--accent-cyan);
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .required-asterisk {
+            color: var(--accent-cyan);
+        }
+        
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .hero-bg {
+            background-color: var(--bg-primary) !important;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 5rem;
+            left: 2.5rem;
+            width: 18rem;
+            height: 18rem;
+            background: var(--accent-cyan);
+            opacity: 0.1;
+            border-radius: 50%;
+            filter: blur(120px);
+            animation: pulse 3s infinite;
+            z-index: 1;
+        }
+        
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            bottom: 5rem;
+            right: 2.5rem;
+            width: 24rem;
+            height: 24rem;
+            background: var(--accent-blue);
+            opacity: 0.1;
+            border-radius: 50%;
+            filter: blur(120px);
+            animation: pulse 4s infinite;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; height: 4rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="gradient-cyan-blue" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #020617;">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27,6.96 12,12.01 20.73,6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <span class="font-mono gradient-text-cyan-blue" style="font-size: 1.5rem; font-weight: 700;">NeoCortex AI</span>
+            </div>
+            <div style="display: none; align-items: center; gap: 2rem; font-size: 0.875rem; font-weight: 500;" class="font-mono nav-links">
+                <a href="#features" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">Features</a>
+                <a href="#benefits" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">Benefits</a>
+                <a href="#faq" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">FAQ</a>
+            </div>
+            <a href="#waitlist" class="btn-primary font-mono" style="font-size: 0.875rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16,18 22,12 16,6"></polyline>
+                    <polyline points="8,6 2,12 8,18"></polyline>
+                </svg>
+                Join Early Access
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="section-padding hero-bg" style="position: relative; text-align: center; overflow: hidden; background-color: var(--bg-primary)!important;">
+        <div class="container" style="position: relative; max-width: 1200px;">
+            <div class="badge font-mono" style="margin-bottom: 1.5rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"></polygon>
+                </svg>
+                Claude Code Supercharged
+            </div>
+            <h1 class="font-mono" style="font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;">
+                <span style="color: white;">Transform</span><br>
+                <span class="gradient-text-cyan-blue">Claude Code</span><br>
+                <span style="color: white;">into Your AI</span><br>
+                <span class="gradient-text-cyan-blue">Command Center</span>
+            </h1>
+            <p style="max-width: 960px; margin: 0 auto 2.5rem; font-size: 1.25rem; color: var(--text-secondary); line-height: 1.6;">
+                The groundbreaking agentic capabilities of Claude Code, given a full thinking mechanism with 
+                temporal knowledge graphs, persistent memory, and a web GUI that transforms CLI intimidation 
+                into developer paradise.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center; margin-bottom: 4rem;">
+                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
+                    <a href="#waitlist" class="btn-primary font-mono" style="font-size: 1.25rem; padding: 1.5rem 3rem;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16,18 22,12 16,6"></polyline>
+                            <polyline points="8,6 2,12 8,18"></polyline>
+                        </svg>
+                        Join Early Access Waitlist
+                    </a>
+                    <button class="btn-outline font-mono" style="font-size: 1.25rem; padding: 1.5rem 3rem;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5,3 19,12 5,21 5,3"></polygon>
+                        </svg>
+                        Watch Demo
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Target Audience Badges -->
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                <div class="card" style="padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                        <polyline points="16,18 22,12 16,6"></polyline>
+                        <polyline points="8,6 2,12 8,18"></polyline>
+                    </svg>
+                    <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">Vibe Coders</span>
+                </div>
+                <div class="card" style="padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2">
+                        <rect x="4" y="4" width="16" height="12" rx="2"></rect>
+                        <rect x="4" y="18" width="16" height="2" rx="1"></rect>
+                    </svg>
+                    <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">Solo Devs</span>
+                </div>
+                <div class="card" style="padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-purple)" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                    <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">AI Agencies</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="section-padding" style="background: linear-gradient(180deg, var(--bg-secondary), var(--bg-tertiary));">
+        <div class="container" style="text-align: center;">
+            <div class="badge font-mono" style="margin-bottom: 2rem; background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3);">
+                Context Lost, Quality Drops
+            </div>
+            <h2 class="font-mono" style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem;">
+                AI Tools That <span style="color: #fca5a5;">Forget & Fail</span>
+            </h2>
+            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 4rem; max-width: 768px; margin-left: auto; margin-right: auto;">
+                Current AI tools lose track, go off the rails, and produce subpar outputs that keep you debugging instead of building.
+            </p>
+            <div class="grid grid-cols-2" style="text-align: left; max-width: 1000px; margin: 0 auto;">
+                <div class="card" style="padding: 2rem;">
+                    <div style="width: 4rem; height: 4rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <span style="font-size: 2rem;">🧠</span>
+                    </div>
+                    <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Memory Loss Chaos</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        AI forgets your previous context, breaks existing code, and generates conflicting solutions. 
+                        Without persistent memory, every interaction starts from zero.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <div style="width: 4rem; height: 4rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <span style="font-size: 2rem;">⚡</span>
+                    </div>
+                    <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">CLI Intimidation Factor</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Claude Code is incredibly powerful, but the terminal and IDE setup keeps many locked out. 
+                        The learning curve kills momentum before you experience the magic.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <div style="width: 4rem; height: 4rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <span style="font-size: 2rem;">🗑️</span>
+                    </div>
+                    <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Generic Output Garbage</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Web chat AI produces shallow, generic code that doesn't understand your specific project context, 
+                        architecture, or business logic.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <div style="width: 4rem; height: 4rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <span style="font-size: 2rem;">🔄</span>
+                    </div>
+                    <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Debugging Death Spiral</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        More time fixing AI-generated bugs than building features. The bumbling junior developer 
+                        wastes your time instead of amplifying your capabilities.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="features" class="section-padding" style="position: relative; background: var(--bg-primary);">
+        <div class="container" style="text-align: center;">
+            <div class="badge font-mono" style="margin-bottom: 2rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                </svg>
+                The Solution
+            </div>
+            <h2 class="font-mono" style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem;">
+                Claude Code + <span class="gradient-text-cyan-blue">Thinking Brain</span>
+            </h2>
+            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 4rem; max-width: 768px; margin-left: auto; margin-right: auto;">
+                NeoCortex AI gives Claude Code persistent memory, thinking mechanisms, and a web interface 
+                that transforms intimidation into innovation.
+            </p>
+            
+            <div class="grid grid-cols-3" style="margin-bottom: 4rem;">
+                <div class="card" style="padding: 2rem; text-align: center;">
+                    <div class="gradient-cyan-blue" style="width: 4rem; height: 4rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1rem;">Temporal Memory</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Knowledge graphs with episodic memory that remember every project decision, 
+                        code change, and conversation across sessions.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem; text-align: center;">
+                    <div style="background: linear-gradient(135deg, var(--accent-blue), #1d4ed8); width: 4rem; height: 4rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                            <polyline points="16,18 22,12 16,6"></polyline>
+                            <polyline points="8,6 2,12 8,18"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1rem;">Web GUI Power</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Transform Claude Code's CLI into an accessible web interface while preserving 
+                        all the power and flexibility underneath.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem; text-align: center;">
+                    <div style="background: linear-gradient(135deg, var(--accent-purple), #7c3aed); width: 4rem; height: 4rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="12" rx="2"></rect>
+                            <rect x="4" y="18" width="16" height="2" rx="1"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1rem;">ANCIS Intelligence</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        AI queries your entire codebase in seconds with the ANCIS compiler, 
+                        providing immediate contextual intelligence for better outputs.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="card" style="padding: 2rem; text-align: left; max-width: 1000px; margin: 0 auto;">
+                <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1.5rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12,5 19,12 12,19"></polyline>
+                    </svg>
+                    From Bumbling Assistant to Senior Team
+                </h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.125rem; line-height: 1.6;">
+                    NeoCortex AI transforms Claude Code into your AI command center with thinking mechanisms that align 
+                    business logic, ontological semantics, and deeply enriched temporal knowledge graphs.
+                </p>
+                <p style="color: var(--text-secondary); font-size: 1.125rem; line-height: 1.6;">
+                    It's extensible for power users who want modular capabilities while providing a framework 
+                    and web GUI that makes Claude Code accessible to everyone. The unrivaled power of Claude Code CLI 
+                    with a frontend that dramatically improves output quality.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="section-padding" style="background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <div class="badge font-mono" style="margin-bottom: 2rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Your Transformation
+                </div>
+                <h2 class="font-mono" style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem;">
+                    <span style="color: white;">From Claude Code</span><br>
+                    <span class="gradient-text-cyan-blue">Intimidation</span> to 
+                    <span class="gradient-text-cyan-blue">Innovation</span>
+                </h2>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 768px; margin: 0 auto;">
+                    Experience what happens when Claude Code gets thinking mechanisms, persistent memory, and community-driven enhancement.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-3">
+                <div class="card" style="padding: 2rem;">
+                    <div class="gradient-cyan-blue" style="width: 4rem; height: 4rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1rem;">Power Users: Sports Car Upgrade</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        For Claude Code enthusiasts, this is Christmas morning. Dramatically enhanced capabilities, 
+                        customizable agents, and community-driven content.
+                    </p>
+                    <div class="font-mono" style="font-size: 0.875rem; color: var(--accent-cyan);">
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;"><span style="margin-right: 0.5rem;">→</span> Flexible, enhanced capabilities</div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;"><span style="margin-right: 0.5rem;">→</span> Custom agents and themes</div>
+                        <div style="display: flex; align-items: center;"><span style="margin-right: 0.5rem;">→</span> Community-driven extensions</div>
+                    </div>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <div style="background: linear-gradient(135deg, var(--accent-blue), #1d4ed8); width: 4rem; height: 4rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1rem;">Professionals: Imagination Unleashed</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Amazing AI workflow tools where imagination is the limit. Transform any business process 
+                        with intelligent automation and persistent memory.
+                    </p>
+                    <div class="font-mono" style="font-size: 0.875rem; color: var(--accent-blue);">
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;"><span style="margin-right: 0.5rem;">→</span> Unlimited workflow automation</div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;"><span style="margin-right: 0.5rem;">→</span> Business-aware AI assistants</div>
+                        <div style="display: flex; align-items: center;"><span style="margin-right: 0.5rem;">→</span> Persistent project memory</div>
+                    </div>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <div style="background: linear-gradient(135deg, var(--accent-purple), #7c3aed); width: 4rem; height: 4rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <rect x="7" y="7" width="3" height="9"></rect>
+                            <rect x="14" y="7" width="3" height="5"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1rem;">Beginners: Easy Entry Bridge</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Easier approach to IDE, terminal, and CLI concepts with community teaching 
+                        and beginner-friendly guidance built in.
+                    </p>
+                    <div class="font-mono" style="font-size: 0.875rem; color: var(--accent-purple);">
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;"><span style="margin-right: 0.5rem;">→</span> Web interface removes barriers</div>
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;"><span style="margin-right: 0.5rem;">→</span> Community learning support</div>
+                        <div style="display: flex; align-items: center;"><span style="margin-right: 0.5rem;">→</span> Gentle introduction to power tools</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section-padding" style="background: var(--bg-primary);">
+        <div class="container" style="max-width: 1000px;">
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <div class="badge font-mono" style="margin-bottom: 2rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    Common Questions
+                </div>
+                <h2 class="font-mono" style="font-size: 3.5rem; font-weight: 700; color: white; margin-bottom: 2rem;">
+                    Everything You Need to <span style="color: var(--accent-cyan);">Know</span>
+                </h2>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 768px; margin: 0 auto;">
+                    Answers about NeoCortex AI and Claude Code enhancement:
+                </p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="card" style="padding: 2rem;">
+                    <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 1rem;">
+                        Do I need Claude Code installed to use NeoCortex AI?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Yes, NeoCortex AI is a companion to Claude Code that enhances its capabilities. It adds persistent memory, 
+                        web GUI, and thinking mechanisms while preserving all of Claude Code's power. Think of it as a 
+                        supercharger for your existing Claude Code setup.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem;">
+                        How does the early access waitlist work?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Join the waitlist to get first access when we launch. When ready, we'll provide authenticated download 
+                        links only to waitlist members. Later it becomes community-driven through Skool with open source core 
+                        and premium features for community members.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 1rem;">
+                        What makes NeoCortex AI different from other AI tools?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Other platforms are just web chats or unreachable CLI tools. NeoCortex AI gives you the best of both worlds: 
+                        Claude Code's unrivaled power with a web interface, persistent memory, and contextual intelligence that 
+                        dramatically improves output quality. It's modular and community-driven, not a black box.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-purple); margin-bottom: 1rem;">
+                        Can beginners use this without terminal experience?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Absolutely! NeoCortex AI's web interface removes the terminal intimidation factor while the community 
+                        provides beginner-friendly teaching and support. It's designed to be an easy bridge into the world of 
+                        powerful development tools, with the community helping newcomers learn.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem;">
+                        Will this be open source?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Yes! The plan is to open source NeoCortex AI on GitHub while offering premium features through the 
+                        Skool community. The system is designed to be modular and extensible, with community members able to 
+                        share custom agents, themes, and enhancements.
+                    </p>
+                </div>
+                
+                <div class="card" style="padding: 2rem;">
+                    <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 1rem;">
+                        How does the ANCIS codebase intelligence work?
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        ANCIS compiles your entire codebase into an intelligent index that AI can query in seconds. This provides 
+                        immediate contextual understanding of your project structure, dependencies, and code patterns, resulting 
+                        in much more accurate and contextually appropriate AI suggestions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section id="waitlist" class="section-padding" style="position: relative; background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));">
+        <div class="container" style="text-align: center; max-width: 1000px;">
+            <div class="badge font-mono" style="margin-bottom: 2rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Ready to Transform?
+            </div>
+            <h2 class="font-mono" style="font-size: 4rem; font-weight: 700; color: white; margin-bottom: 2rem;">
+                Transform <span style="color: var(--accent-cyan);">Claude Code</span><br>
+                Into Your <span style="color: var(--accent-blue);">Command Center</span>
+            </h2>
+            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 4rem; max-width: 960px; margin-left: auto; margin-right: auto;">
+                Join the early access waitlist and be among the first to experience Claude Code 
+                with persistent memory, thinking mechanisms, and community-driven enhancement.
+            </p>
+            
+            <div class="card" style="padding: 2.5rem; max-width: 640px; margin: 0 auto;">
+                <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 2rem;">
+                    🚀 Early Access Waitlist Benefits
+                </h3>
+                
+                <div style="margin-bottom: 2.5rem;">
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                        <div class="gradient-cyan-blue" style="width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="font-mono">First access when NeoCortex AI launches</span>
+                    </div>
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                        <div style="background: linear-gradient(135deg, var(--accent-blue), #1d4ed8); width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="font-mono">Authenticated download exclusivity</span>
+                    </div>
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                        <div style="background: linear-gradient(135deg, var(--accent-purple), #7c3aed); width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="font-mono">Access to Skool community + premium features</span>
+                    </div>
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary);">
+                        <div style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="font-mono">Open source core when community launches</span>
+                    </div>
+                </div>
+                
+                <!-- Waitlist Form -->
+                <form name="neocortex-waitlist" method="POST" netlify netlify-honeypot="bot-field" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Hidden bot field for spam protection -->
+                    <input type="hidden" name="bot-field" />
+
+                    <!-- Name Field -->
+                    <div>
+                        <label for="name" class="form-label">
+                            Full Name <span class="required-asterisk">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            required
+                            class="form-input"
+                            placeholder="Enter your full name"
+                        />
+                    </div>
+
+                    <!-- Email Field -->
+                    <div>
+                        <label for="email" class="form-label">
+                            Email Address <span class="required-asterisk">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            class="form-input"
+                            placeholder="Enter your email address"
+                        />
+                    </div>
+
+                    <!-- Claude Code Usage -->
+                    <div>
+                        <label class="form-label" style="margin-bottom: 1rem;">
+                            Do you currently work with Claude Code? <span class="required-asterisk">*</span>
+                        </label>
+                        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="uses_claude_code" value="yes" required class="form-radio" />
+                                <span class="font-mono" style="color: var(--text-secondary);">Yes, I'm a Claude Code user</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="uses_claude_code" value="no" required class="form-radio" />
+                                <span class="font-mono" style="color: var(--text-secondary);">No, I'm new to Claude Code</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Email Consent (US Compliance) -->
+                    <div>
+                        <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; line-height: 1.5;">
+                            <input type="checkbox" name="consent_emails" value="true" required class="form-checkbox" style="margin-top: 0.25rem; flex-shrink: 0;" />
+                            <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">
+                                I consent to receive marketing emails from NeoCortex AI about early access, product updates, and related content. I understand I can unsubscribe at any time. By providing my information, I agree to the
+                                <a href="/privacy" style="color: var(--accent-cyan); text-decoration: underline;">Privacy Policy</a> and
+                                <a href="/terms" style="color: var(--accent-cyan); text-decoration: underline;">Terms of Service</a>. <span class="required-asterisk">*</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary font-mono" style="width: 100%; justify-content: center; padding: 1.5rem 2rem; font-size: 1.25rem; border: none; cursor: pointer;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16,18 22,12 16,6"></polyline>
+                            <polyline points="8,6 2,12 8,18"></polyline>
+                        </svg>
+                        Join Early Access Waitlist
+                    </button>
+
+                    <!-- GitHub Follow -->
+                    <a href="https://github.com/your-username/neocortex" class="btn-outline font-mono" style="width: 100%; justify-content: center; padding: 1.5rem 2rem; font-size: 1.25rem; text-decoration: none;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                        Follow Development Updates
+                    </a>
+                </form>
+                
+                <p class="font-mono" style="font-size: 0.875rem; color: var(--text-tertiary); margin-top: 1.5rem;">
+                    🔒 No spam, ever. Early access only.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 4rem 1rem; background: var(--bg-secondary); border-top: 1px solid var(--border-color);">
+        <div class="container">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div class="gradient-cyan-blue" style="width: 3rem; height: 3rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-mono gradient-text-cyan-blue" style="font-size: 2rem; font-weight: 700;">NeoCortex AI</span>
+                </div>
+                
+                <div class="font-mono" style="color: var(--text-tertiary); text-align: center;">
+                    <span>© 2024 NeoCortex AI. Supercharging Claude Code.</span>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="#" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s; display: flex; align-items: center; gap: 0.5rem;" class="font-mono">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Show mobile nav links on larger screens
+        window.addEventListener('resize', function() {
+            const navLinks = document.querySelector('.nav-links');
+            if (window.innerWidth >= 768) {
+                navLinks.style.display = 'flex';
+            } else {
+                navLinks.style.display = 'none';
+            }
+        });
+
+        // Initialize nav visibility
+        if (window.innerWidth >= 768) {
+            document.querySelector('.nav-links').style.display = 'flex';
+        }
+
+        // Add hover effects to navigation links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.color = 'var(--accent-cyan)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.color = 'var(--text-tertiary)';
+            });
+        });
+
+        // Add hover effects to footer GitHub link
+        const githubLink = document.querySelector('footer a');
+        githubLink.addEventListener('mouseenter', function() {
+            this.style.color = 'var(--accent-cyan)';
+        });
+        githubLink.addEventListener('mouseleave', function() {
+            this.style.color = 'var(--text-secondary)';
+        });
+    </script>
+</body>
+</html>

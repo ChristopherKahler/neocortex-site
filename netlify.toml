@@ -1,0 +1,51 @@
+# Netlify configuration for NeoCortex AI website
+
+[build]
+  # No build process needed for static HTML
+  publish = "."
+
+# Form handling configuration
+[forms]
+  # Enable form detection
+  spam_threshold = 1
+
+# Redirect rules
+[[redirects]]
+  # Handle SPA-style navigation (if needed later)
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Accept = "text/html"}
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Performance headers
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    # Don't cache HTML for instant updates
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Custom domain configuration
+[context.production]
+  # Environment-specific settings for production
+  [context.production.processing]
+    skip_processing = false
+
+# Development preview settings
+[context.deploy-preview]
+  # Settings for deploy previews
+
+# Branch-specific settings (if using multiple branches)
+[context.branch-deploy]
+  # Settings for branch deploys

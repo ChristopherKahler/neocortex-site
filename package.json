@@ -1,0 +1,38 @@
+{
+  "name": "neocortex-ai-website",
+  "version": "1.0.0",
+  "description": "NeoCortex AI - Transform Claude Code into Your AI Command Center",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build step required for static site'",
+    "dev": "npx http-server . -p 3000 -o",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "neocortex",
+    "ai",
+    "claude-code",
+    "artificial-intelligence",
+    "web-gui",
+    "persistent-memory",
+    "developer-tools"
+  ],
+  "author": "NeoCortex AI",
+  "license": "MIT",
+  "dependencies": {
+    "resend": "^3.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/neocortex-site.git"
+  },
+  "homepage": "https://neocortexai.dev",
+  "netlify": {
+    "functions": {
+      "directory": "netlify/functions"
+    }
+  }
+}
