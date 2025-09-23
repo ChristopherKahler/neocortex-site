@@ -438,7 +438,7 @@
                 <a href="#benefits" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">Benefits</a>
                 <a href="#faq" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">FAQ</a>
             </div>
-            <a href="#waitlist" class="btn-primary font-mono" style="font-size: 0.875rem;">
+            <a href="#waitlist-form" class="btn-primary font-mono" style="font-size: 0.875rem;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="16,18 22,12 16,6"></polyline>
                     <polyline points="8,6 2,12 8,18"></polyline>
@@ -470,7 +470,7 @@
             </p>
             <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center; margin-bottom: 4rem;">
                 <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
-                    <a href="#waitlist" class="btn-primary font-mono" style="font-size: 1.25rem; padding: 1.5rem 3rem;">
+                    <a href="#waitlist-form" class="btn-primary font-mono" style="font-size: 1.25rem; padding: 1.5rem 3rem;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="16,18 22,12 16,6"></polyline>
                             <polyline points="8,6 2,12 8,18"></polyline>
@@ -888,7 +888,10 @@
                         <span class="font-mono">Open source core when community launches</span>
                     </div>
                 </div>
-                
+
+                <!-- Form Anchor Point -->
+                <div id="waitlist-form" style="position: relative; top: -100px; visibility: hidden;"></div>
+
                 <!-- Waitlist Form -->
                 <form name="neocortex-waitlist" method="POST" action="/.netlify/functions/form-submit" style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <!-- Hidden bot field for spam protection -->
