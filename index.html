@@ -264,7 +264,7 @@
                 gap: 1.5rem !important;
             }
 
-            /* Fix bullet point alignment on mobile */
+            /* Fix bullet point alignment on mobile - but keep checkmark boxes centered */
             .card div[style*="display: flex"][style*="align-items: center"] {
                 align-items: flex-start !important;
                 text-align: left !important;
@@ -272,6 +272,14 @@
 
             .card div[style*="display: flex"][style*="align-items: center"] span {
                 text-align: left !important;
+            }
+
+            /* Keep all icon boxes properly centered */
+            .card div[style*="display: flex"] div[style*="display: flex"][style*="justify-content: center"],
+            .card div[style*="display: flex"] div[style*="background:"][style*="border-radius"],
+            .card div[style*="display: flex"] div[class*="gradient"] {
+                align-items: center !important;
+                align-self: flex-start !important;
             }
         }
 
