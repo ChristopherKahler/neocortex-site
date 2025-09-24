@@ -3,142 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeoCortex AI - Transform Claude Code into Your AI Command Center</title>
-    <meta name="description" content="Transform Claude Code with persistent memory, thinking mechanisms, and web GUI. Join early access waitlist for the AI command center that eliminates context loss and delivers precision outputs.">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom CSS for terminal-inspired theme -->
+    <title>NeoCortex AI - Transform Claude Code Into Your Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
-        
         :root {
-            --bg-primary: #020617;
-            --bg-secondary: #0f172a;
-            --bg-tertiary: #1e293b;
-            --text-primary: #ffffff;
-            --text-secondary: #cbd5e1;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-elevated: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
             --text-tertiary: #64748b;
+            --accent-primary: #06b6d4;
+            --accent-secondary: #3b82f6;
+            --accent-tertiary: #8b5cf6;
             --accent-cyan: #06b6d4;
             --accent-blue: #3b82f6;
             --accent-purple: #8b5cf6;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
             --border-color: #334155;
+
+            /* n8n Form Styling Variables */
+            --n8n-font-family: 'Open Sans', sans-serif;
+            --n8n-bg: #ffffff;
+            --n8n-card-bg: #ffffff;
+            --n8n-card-border: #dbdfe7;
+            --n8n-input-border: #dbdfe7;
+            --n8n-input-text: #71747A;
+            --n8n-label-color: #555555;
+            --n8n-submit-bg: #06b6d4;
+            --n8n-submit-text: #ffffff;
+            --n8n-focus-border: #06b6d4;
+            --n8n-required-color: #06b6d4;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-primary);
+            background: var(--background);
             color: var(--text-primary);
             line-height: 1.6;
+            overflow-x: hidden;
         }
-        
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-        
-        .bg-slate-950 { background-color: var(--bg-primary); }
-        .bg-slate-900 { background-color: var(--bg-secondary); }
-        .bg-slate-800 { background-color: var(--bg-tertiary); }
-        .text-slate-300 { color: var(--text-secondary); }
-        .text-slate-400 { color: var(--text-tertiary); }
-        .border-slate-700 { border-color: var(--border-color); }
-        
-        .gradient-cyan-blue {
+
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23334155' fill-opacity='0.4'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4rem;
+        }
+
+        .logo {
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
         }
-        
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-outline {
+            background: var(--surface);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--surface-elevated);
+            border-color: var(--accent-cyan);
+        }
+
         .gradient-text-cyan-blue {
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-        
+
         .card {
-            background: rgba(30, 41, 59, 0.3);
-            border: 1px solid var(--border-color);
+            background: var(--surface);
             border-radius: 1rem;
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            transition: all 0.3s ease;
         }
-        
+
         .card:hover {
-            background: rgba(30, 41, 59, 0.5);
-            transform: translateY(-4px);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-        
-        .btn-primary {
+
+        .gradient-cyan-blue {
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            color: var(--bg-primary);
-            font-weight: 700;
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
         }
-        
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
-        }
-        
-        .btn-outline {
-            border: 2px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            background: transparent;
-            font-weight: 700;
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-outline:hover {
-            background: rgba(6, 182, 212, 0.1);
-        }
-        
-        .section-padding {
-            padding: 6rem 1rem;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        
+
         .badge {
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            color: var(--bg-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
             padding: 0.5rem 1rem;
-            border-radius: 9999px;
+            border-radius: 2rem;
             font-size: 0.875rem;
             font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
         }
-        
+
         .grid {
             display: grid;
             gap: 2rem;
         }
-        
+
         .grid-cols-1 { grid-template-columns: 1fr; }
         .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
         .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
@@ -147,6 +211,29 @@
         #features .card h3,
         #features .card p {
             text-align: left !important;
+        }
+
+        /* n8n Form Styling */
+        .n8n-form-wrapper {
+            background: var(--n8n-card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0px 4px 16px 0px rgba(99, 77, 255, 0.06);
+            border: 1px solid var(--n8n-card-border);
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        /* Override n8n form styles */
+        .n8n-form-wrapper iframe {
+            width: 100% !important;
+            min-height: 500px;
+            border: none;
+        }
+
+        /* Custom n8n form styles that will be injected */
+        .n8n-form-styles {
+            font-family: var(--n8n-font-family) !important;
         }
 
         /* Mobile Responsive Design - Below 900px */
@@ -201,14 +288,14 @@
 
             /* Hero section adjustments */
             .hero-section {
-                text-align: left !important;
-                padding: 2rem 1rem 3rem !important;
+                min-height: auto !important;
+                padding: 6rem 0 4rem !important;
             }
 
             /* Form adjustments */
-            form {
-                padding: 2rem 1rem !important;
-                text-align: left !important;
+            .n8n-form-wrapper {
+                padding: 1.5rem !important;
+                margin: 1.5rem 0 !important;
             }
 
             /* Card adjustments for mobile */
@@ -231,10 +318,6 @@
             /* Center align only specific elements that should stay centered */
             .logo, .brand {
                 text-align: center !important;
-            }
-
-            .form-input, .form-checkbox {
-                font-size: 16px !important; /* Prevents zoom on iOS */
             }
 
             /* Navigation adjustments */
@@ -304,305 +387,130 @@
             h1 {
                 font-size: 2rem !important;
             }
+
             h2 {
                 font-size: 1.75rem !important;
             }
-            h3 {
-                font-size: 1.25rem !important;
+
+            .container {
+                padding: 0 1rem;
             }
 
             .section-padding {
                 padding: 2rem 1rem !important;
             }
 
-            .btn-primary, .btn-outline {
-                padding: 0.875rem 1.25rem !important;
-                font-size: 0.9rem !important;
+            .n8n-form-wrapper {
+                padding: 1rem !important;
+                margin: 1rem 0 !important;
             }
-
-            form {
-                padding: 1.5rem 0.75rem !important;
-            }
-
-            .card {
-                padding: 1.25rem 0.75rem !important;
-                margin: 0 0.25rem !important;
-            }
-
-            /* Extra small navigation fixes */
-            nav .btn-primary {
-                padding: 0.375rem 0.75rem !important;
-                font-size: 0.7rem !important;
-            }
-
-            nav .gradient-text-cyan-blue {
-                font-size: 1.1rem !important;
-            }
-
-            nav .container {
-                min-height: 3.5rem !important;
-            }
-        }
-        
-        .animate-pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .blur-bg {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.1;
-        }
-
-        /* Form Styles */
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.5rem;
-            background: rgba(30, 41, 59, 0.5);
-            color: white;
-            font-size: 1rem;
-            transition: border-color 0.3s, background-color 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-            background: rgba(30, 41, 59, 0.7);
-        }
-
-        .form-input:invalid {
-            border-color: #ef4444;
-        }
-
-        .form-radio {
-            accent-color: var(--accent-cyan);
-        }
-
-        .form-checkbox {
-            accent-color: var(--accent-cyan);
-        }
-
-        .form-label {
-            display: block;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .required-asterisk {
-            color: var(--accent-cyan);
-        }
-        
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(2, 6, 23, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .hero-bg {
-            background-color: var(--bg-primary) !important;
-        }
-        
-        .hero-bg::before {
-            content: '';
-            position: absolute;
-            top: 5rem;
-            left: 2.5rem;
-            width: 18rem;
-            height: 18rem;
-            background: var(--accent-cyan);
-            opacity: 0.1;
-            border-radius: 50%;
-            filter: blur(120px);
-            animation: pulse 3s infinite;
-            z-index: 1;
-        }
-        
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            bottom: 5rem;
-            right: 2.5rem;
-            width: 24rem;
-            height: 24rem;
-            background: var(--accent-blue);
-            opacity: 0.1;
-            border-radius: 50%;
-            filter: blur(120px);
-            animation: pulse 4s infinite;
-            z-index: 1;
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; height: 4rem;">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div class="gradient-cyan-blue" style="width: 2.5rem; height: 2.5rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #020617;">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                        <polyline points="3.27,6.96 12,12.01 20.73,6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                    </svg>
-                </div>
-                <span class="font-mono gradient-text-cyan-blue" style="font-size: 1.5rem; font-weight: 700;">NeoCortex AI</span>
+        <div class="container">
+            <div class="logo">NeoCortex AI</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#faq">FAQ</a>
+                <a href="#waitlist" class="btn btn-primary">Join Waitlist</a>
             </div>
-            <div style="display: none; align-items: center; gap: 2rem; font-size: 0.875rem; font-weight: 500;" class="font-mono nav-links">
-                <a href="#features" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">Features</a>
-                <a href="#benefits" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">Benefits</a>
-                <a href="#faq" style="color: var(--text-tertiary); text-decoration: none; transition: color 0.3s;">FAQ</a>
-            </div>
-            <a href="#waitlist-form" class="btn-primary font-mono" style="font-size: 0.875rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="16,18 22,12 16,6"></polyline>
-                    <polyline points="8,6 2,12 8,18"></polyline>
-                </svg>
-                Join Early Access
-            </a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="section-padding hero-bg" style="position: relative; text-align: center; overflow: hidden; background-color: var(--bg-primary)!important;">
-        <div class="container" style="position: relative; max-width: 1200px;">
-            <div class="badge font-mono" style="margin-bottom: 1.5rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"></polygon>
-                </svg>
-                Claude Code Supercharged
-            </div>
-            <h1 class="font-mono" style="font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;">
-                <span style="color: white;">Transform</span><br>
-                <span class="gradient-text-cyan-blue">Claude Code</span><br>
-                <span style="color: white;">into Your AI</span><br>
-                <span class="gradient-text-cyan-blue">Command Center</span>
-            </h1>
-            <p style="max-width: 960px; margin: 0 auto 2.5rem; font-size: 1.25rem; color: var(--text-secondary); line-height: 1.6;">
-                The groundbreaking agentic capabilities of Claude Code, given a full thinking mechanism with 
-                temporal knowledge graphs, persistent memory, and a web GUI that transforms CLI intimidation 
-                into developer paradise.
-            </p>
-            <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center; margin-bottom: 4rem;">
-                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
-                    <a href="#waitlist-form" class="btn-primary font-mono" style="font-size: 1.25rem; padding: 1.5rem 3rem;">
+    <section class="hero-section">
+        <div class="container" style="position: relative; z-index: 1;">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <div class="badge" style="margin-bottom: 2rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                    Early Access
+                </div>
+                <h1 class="font-mono" style="font-size: 4rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.1;">
+                    Transform <span style="color: var(--accent-cyan); white-space: nowrap;">Claude Code</span><br>
+                    Into Your <span style="color: var(--accent-blue); white-space: nowrap;">Command Center</span>
+                </h1>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    NeoCortex AI gives Claude Code persistent memory, thinking mechanisms, and a web interface
+                    that transforms intimidation into innovation. Be among the first to experience the transformation.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="#waitlist" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="16,18 22,12 16,6"></polyline>
                             <polyline points="8,6 2,12 8,18"></polyline>
                         </svg>
                         Join Early Access Waitlist
                     </a>
-                    <button class="btn-outline font-mono" style="font-size: 1.25rem; padding: 1.5rem 3rem;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="5,3 19,12 5,21 5,3"></polygon>
+                    <a href="https://github.com/anthropics/claude-code" class="btn btn-outline" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
                         </svg>
-                        Watch Demo
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Target Audience Badges -->
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-                <div class="card" style="padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
-                        <polyline points="16,18 22,12 16,6"></polyline>
-                        <polyline points="8,6 2,12 8,18"></polyline>
-                    </svg>
-                    <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">Vibe Coders</span>
-                </div>
-                <div class="card" style="padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2">
-                        <rect x="4" y="4" width="16" height="12" rx="2"></rect>
-                        <rect x="4" y="18" width="16" height="2" rx="1"></rect>
-                    </svg>
-                    <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">Solo Devs</span>
-                </div>
-                <div class="card" style="padding: 0.5rem 1rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-purple)" stroke-width="2">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                    </svg>
-                    <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">AI Agencies</span>
+                        Get Claude Code
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Problem Section -->
-    <section class="section-padding" style="background: linear-gradient(180deg, var(--bg-secondary), var(--bg-tertiary));">
-        <div class="container" style="text-align: center;">
-            <div class="badge font-mono" style="margin-bottom: 2rem; background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3);">
-                Context Lost, Quality Drops
+    <!-- Problems Section -->
+    <section class="section-padding" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <div class="badge font-mono" style="margin-bottom: 2rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    The Problem
+                </div>
+                <h2 class="font-mono" style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem;">
+                    AI Tools That <span style="color: var(--accent-cyan);">Forget</span> & <span style="color: var(--accent-blue);">Fail</span>
+                </h2>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 768px; margin: 0 auto;">
+                    Current AI development tools are broken. They forget context, lack persistence, and leave you starting from scratch every session.
+                </p>
             </div>
-            <h2 class="font-mono" style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem;">
-                AI Tools That <span style="color: #fca5a5;">Forget & Fail</span>
-            </h2>
-            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 4rem; max-width: 768px; margin-left: auto; margin-right: auto;">
-                Current AI tools lose track, go off the rails, and produce subpar outputs that keep you debugging instead of building.
-            </p>
-            <div class="grid grid-cols-2" style="text-align: left; max-width: 1000px; margin: 0 auto;">
-                <div class="card" style="padding: 2rem;">
+
+            <div class="grid grid-cols-3">
+                <div class="card">
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 3rem; height: 3rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.25rem;">
+                        <div style="width: 3rem; height: 3rem; background: rgba(239, 68, 68, 0.2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <span style="font-size: 1.5rem;">🧠</span>
                         </div>
                         <div>
-                            <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Memory Loss Chaos</h3>
+                            <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Memory Amnesia</h3>
                             <p style="color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                                AI forgets your previous context, breaks existing code, and generates conflicting solutions.
-                                Without persistent memory, every interaction starts from zero.
+                                Every conversation starts from zero. No context, no memory, no understanding of your project's evolution or your preferences.
                             </p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="card" style="padding: 2rem;">
+
+                <div class="card">
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 3rem; height: 3rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.25rem;">
-                            <span style="font-size: 1.5rem;">⚡</span>
+                        <div style="width: 3rem; height: 3rem; background: rgba(245, 101, 101, 0.2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <span style="font-size: 1.5rem;">💻</span>
                         </div>
                         <div>
-                            <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">CLI Intimidation Factor</h3>
+                            <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Terminal Intimidation</h3>
                             <p style="color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                                Claude Code is incredibly powerful, but the terminal and IDE setup keeps many locked out.
-                                The learning curve kills momentum before you experience the magic.
+                                Claude Code's power is locked behind command-line complexity. Most developers never access its full potential due to interface barriers.
                             </p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="card" style="padding: 2rem;">
+
+                <div class="card">
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 3rem; height: 3rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.25rem;">
-                            <span style="font-size: 1.5rem;">🗑️</span>
-                        </div>
-                        <div>
-                            <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Generic Output Garbage</h3>
-                            <p style="color: var(--text-secondary); line-height: 1.6; margin: 0;">
-                                Web chat AI produces shallow, generic code that doesn't understand your specific project context,
-                                architecture, or business logic.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card" style="padding: 2rem;">
-                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                        <div style="width: 3rem; height: 3rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.25rem;">
-                            <span style="font-size: 1.5rem;">🔄</span>
+                        <div style="width: 3rem; height: 3rem; background: rgba(252, 165, 165, 0.2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <span style="font-size: 1.5rem;">🐛</span>
                         </div>
                         <div>
                             <h3 class="font-mono" style="font-weight: 700; color: white; margin-bottom: 1rem; font-size: 1.25rem;">Debugging Death Spiral</h3>
@@ -630,10 +538,10 @@
                 Claude Code + <span class="gradient-text-cyan-blue">Thinking Brain</span>
             </h2>
             <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 4rem; max-width: 768px; margin-left: auto; margin-right: auto;">
-                NeoCortex AI gives Claude Code persistent memory, thinking mechanisms, and a web interface 
+                NeoCortex AI gives Claude Code persistent memory, thinking mechanisms, and a web interface
                 that transforms intimidation into innovation.
             </p>
-            
+
             <div class="grid grid-cols-3" style="margin-bottom: 4rem;">
                 <div class="card" style="padding: 2rem;">
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
@@ -690,7 +598,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card" style="padding: 2rem; text-align: left; max-width: 1000px; margin: 0 auto;">
                 <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 1.5rem; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
@@ -700,12 +608,12 @@
                     From Bumbling Assistant to Senior Team
                 </h3>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.125rem; line-height: 1.6;">
-                    NeoCortex AI transforms Claude Code into your AI command center with thinking mechanisms that align 
+                    NeoCortex AI transforms Claude Code into your AI command center with thinking mechanisms that align
                     business logic, ontological semantics, and deeply enriched temporal knowledge graphs.
                 </p>
                 <p style="color: var(--text-secondary); font-size: 1.125rem; line-height: 1.6;">
-                    It's extensible for power users who want modular capabilities while providing a framework 
-                    and web GUI that makes Claude Code accessible to everyone. The unrivaled power of Claude Code CLI 
+                    It's extensible for power users who want modular capabilities while providing a framework
+                    and web GUI that makes Claude Code accessible to everyone. The unrivaled power of Claude Code CLI
                     with a frontend that dramatically improves output quality.
                 </p>
             </div>
@@ -726,14 +634,14 @@
                 </div>
                 <h2 class="font-mono" style="font-size: 3.5rem; font-weight: 700; margin-bottom: 2rem;">
                     <span style="color: white;">From Claude Code</span><br>
-                    <span class="gradient-text-cyan-blue">Intimidation</span> to 
+                    <span class="gradient-text-cyan-blue">Intimidation</span> to
                     <span class="gradient-text-cyan-blue">Innovation</span>
                 </h2>
                 <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 768px; margin: 0 auto;">
                     Experience what happens when Claude Code gets thinking mechanisms, persistent memory, and community-driven enhancement.
                 </p>
             </div>
-            
+
             <div class="grid grid-cols-3">
                 <div class="card" style="padding: 2rem;">
                     <div style="display: flex; align-items: flex-start; gap: 1rem;">
@@ -827,70 +735,70 @@
                     Answers about NeoCortex AI and Claude Code enhancement:
                 </p>
             </div>
-            
+
             <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                 <div class="card" style="padding: 2rem;">
                     <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 1rem;">
                         Do I need Claude Code installed to use NeoCortex AI?
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Yes, NeoCortex AI is a companion to Claude Code that enhances its capabilities. It adds persistent memory, 
-                        web GUI, and thinking mechanisms while preserving all of Claude Code's power. Think of it as a 
+                        Yes, NeoCortex AI is a companion to Claude Code that enhances its capabilities. It adds persistent memory,
+                        web GUI, and thinking mechanisms while preserving all of Claude Code's power. Think of it as a
                         supercharger for your existing Claude Code setup.
                     </p>
                 </div>
-                
+
                 <div class="card" style="padding: 2rem;">
                     <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem;">
                         How does the early access waitlist work?
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Join the waitlist to get first access when we launch. When ready, we'll provide authenticated download 
-                        links only to waitlist members. Later it becomes community-driven through Skool with open source core 
+                        Join the waitlist to get first access when we launch. When ready, we'll provide authenticated download
+                        links only to waitlist members. Later it becomes community-driven through Skool with open source core
                         and premium features for community members.
                     </p>
                 </div>
-                
+
                 <div class="card" style="padding: 2rem;">
                     <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 1rem;">
                         What makes NeoCortex AI different from other AI tools?
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Other platforms are just web chats or unreachable CLI tools. NeoCortex AI gives you the best of both worlds: 
-                        Claude Code's unrivaled power with a web interface, persistent memory, and contextual intelligence that 
+                        Other platforms are just web chats or unreachable CLI tools. NeoCortex AI gives you the best of both worlds:
+                        Claude Code's unrivaled power with a web interface, persistent memory, and contextual intelligence that
                         dramatically improves output quality. It's modular and community-driven, not a black box.
                     </p>
                 </div>
-                
+
                 <div class="card" style="padding: 2rem;">
                     <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-purple); margin-bottom: 1rem;">
                         Can beginners use this without terminal experience?
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Absolutely! NeoCortex AI's web interface removes the terminal intimidation factor while the community 
-                        provides beginner-friendly teaching and support. It's designed to be an easy bridge into the world of 
+                        Absolutely! NeoCortex AI's web interface removes the terminal intimidation factor while the community
+                        provides beginner-friendly teaching and support. It's designed to be an easy bridge into the world of
                         powerful development tools, with the community helping newcomers learn.
                     </p>
                 </div>
-                
+
                 <div class="card" style="padding: 2rem;">
                     <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 1rem;">
                         Will this be open source?
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
-                        Yes! The plan is to open source NeoCortex AI on GitHub while offering premium features through the 
-                        Skool community. The system is designed to be modular and extensible, with community members able to 
+                        Yes! The plan is to open source NeoCortex AI on GitHub while offering premium features through the
+                        Skool community. The system is designed to be modular and extensible, with community members able to
                         share custom agents, themes, and enhancements.
                     </p>
                 </div>
-                
+
                 <div class="card" style="padding: 2rem;">
                     <h3 class="font-mono" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 1rem;">
                         How does the ANCIS codebase intelligence work?
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.6;">
-                        ANCIS compiles your entire codebase into an intelligent index that AI can query in seconds. This provides 
-                        immediate contextual understanding of your project structure, dependencies, and code patterns, resulting 
+                        ANCIS compiles your entire codebase into an intelligent index that AI can query in seconds. This provides
+                        immediate contextual understanding of your project structure, dependencies, and code patterns, resulting
                         in much more accurate and contextually appropriate AI suggestions.
                     </p>
                 </div>
@@ -914,138 +822,73 @@
                 Into Your <span style="color: var(--accent-blue); white-space: nowrap;">Command Center</span>
             </h2>
             <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 4rem; max-width: 960px; margin-left: auto; margin-right: auto;">
-                Join the early access waitlist and be among the first to experience Claude Code 
+                Join the early access waitlist and be among the first to experience Claude Code
                 with persistent memory, thinking mechanisms, and community-driven enhancement.
             </p>
-            
-            <div class="card" style="padding: 2.5rem; max-width: 640px; margin: 0 auto;">
-                <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 2rem;">
+
+            <!-- Form Anchor Point -->
+            <div id="waitlist-form" style="position: relative; top: -100px; visibility: hidden;"></div>
+
+            <!-- n8n Form Embedded -->
+            <div class="n8n-form-wrapper">
+                <h3 class="font-mono" style="font-size: 1.5rem; font-weight: 700; color: #333; margin-bottom: 2rem; text-align: center;">
                     🚀 Early Access Waitlist Benefits
                 </h3>
-                
+
                 <div style="margin-bottom: 2.5rem;">
-                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: #555; margin-bottom: 1.25rem;">
                         <div class="gradient-cyan-blue" style="width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
                                 <polyline points="20,6 9,17 4,12"></polyline>
                             </svg>
                         </div>
-                        <span class="font-mono">First access when NeoCortex AI launches</span>
+                        <span style="font-family: var(--n8n-font-family); font-weight: 600;">First access when NeoCortex AI launches</span>
                     </div>
-                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: #555; margin-bottom: 1.25rem;">
                         <div style="background: linear-gradient(135deg, var(--accent-blue), #1d4ed8); width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
                                 <polyline points="20,6 9,17 4,12"></polyline>
                             </svg>
                         </div>
-                        <span class="font-mono">Authenticated download exclusivity</span>
+                        <span style="font-family: var(--n8n-font-family); font-weight: 600;">Authenticated download exclusivity</span>
                     </div>
-                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: #555; margin-bottom: 1.25rem;">
                         <div style="background: linear-gradient(135deg, var(--accent-purple), #7c3aed); width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
                                 <polyline points="20,6 9,17 4,12"></polyline>
                             </svg>
                         </div>
-                        <span class="font-mono">Access to Skool community + premium features</span>
+                        <span style="font-family: var(--n8n-font-family); font-weight: 600;">Access to Skool community + premium features</span>
                     </div>
-                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: var(--text-secondary);">
+                    <div style="display: flex; align-items: center; font-size: 1.125rem; color: #555;">
                         <div style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2">
                                 <polyline points="20,6 9,17 4,12"></polyline>
                             </svg>
                         </div>
-                        <span class="font-mono">Open source core when community launches</span>
+                        <span style="font-family: var(--n8n-font-family); font-weight: 600;">Open source core when community launches</span>
                     </div>
                 </div>
 
-                <!-- Form Anchor Point -->
-                <div id="waitlist-form" style="position: relative; top: -100px; visibility: hidden;"></div>
+                <!-- Embedded n8n Form -->
+                <iframe
+                    src="https://hook.botsquads.com/form/ad9caccc-2455-469d-a61e-04c7396973e8"
+                    style="width: 100%; min-height: 600px; border: none; border-radius: 8px;"
+                    title="NeoCortex AI Waitlist Form">
+                </iframe>
 
-                <!-- Waitlist Form -->
-                <form name="neocortex-waitlist" method="POST" action="/.netlify/functions/form-submit" style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <!-- Hidden bot field for spam protection -->
-                    <input type="hidden" name="bot-field" />
-                    <!-- Ensure Netlify detects form -->
-                    <input type="hidden" name="form-name" value="neocortex-waitlist" />
+                <!-- Keep the X (Twitter) Follow button separate from the form -->
+                <a href="https://x.com/ChrisKahlerDev" target="_blank" rel="noopener noreferrer"
+                   style="display: inline-block; background: var(--surface); color: var(--text-primary); padding: 1.5rem 2rem; font-size: 1.25rem; text-decoration: none; border-radius: 12px; margin-top: 1.5rem; width: 100%; text-align: center; border: 1px solid var(--border-color); transition: all 0.3s ease; font-family: var(--n8n-font-family); font-weight: 600;"
+                   onmouseover="this.style.background='var(--surface-elevated)'; this.style.borderColor='var(--accent-cyan)';"
+                   onmouseout="this.style.background='var(--surface)'; this.style.borderColor='var(--border-color)';">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    Follow Development Updates
+                </a>
 
-                    <!-- Name Field -->
-                    <div>
-                        <label for="name" class="form-label">
-                            Full Name <span class="required-asterisk">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            required
-                            class="form-input"
-                            placeholder="Enter your full name"
-                        />
-                    </div>
-
-                    <!-- Email Field -->
-                    <div>
-                        <label for="email" class="form-label">
-                            Email Address <span class="required-asterisk">*</span>
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            required
-                            class="form-input"
-                            placeholder="Enter your email address"
-                        />
-                    </div>
-
-                    <!-- Claude Code Usage -->
-                    <div>
-                        <label class="form-label" style="margin-bottom: 1rem;">
-                            Do you currently work with Claude Code? <span class="required-asterisk">*</span>
-                        </label>
-                        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="radio" name="uses_claude_code" value="yes" required class="form-radio" />
-                                <span class="font-mono" style="color: var(--text-secondary);">Yes, I'm a Claude Code user</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="radio" name="uses_claude_code" value="no" required class="form-radio" />
-                                <span class="font-mono" style="color: var(--text-secondary);">No, I'm new to Claude Code</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Email Consent (US Compliance) -->
-                    <div>
-                        <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; line-height: 1.5;">
-                            <input type="checkbox" name="consent_emails" value="true" required class="form-checkbox" style="margin-top: 0.25rem; flex-shrink: 0;" />
-                            <span class="font-mono" style="color: var(--text-secondary); font-size: 0.875rem;">
-                                I consent to receive marketing emails from NeoCortex AI about early access, product updates, and related content. I understand I can unsubscribe at any time. By providing my information, I agree to the
-                                <a href="/privacy" style="color: var(--accent-cyan); text-decoration: underline;">Privacy Policy</a> and
-                                <a href="/terms" style="color: var(--accent-cyan); text-decoration: underline;">Terms of Service</a>. <span class="required-asterisk">*</span>
-                            </span>
-                        </label>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn-primary font-mono" style="width: 100%; justify-content: center; padding: 1.5rem 2rem; font-size: 1.25rem; border: none; cursor: pointer;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="16,18 22,12 16,6"></polyline>
-                            <polyline points="8,6 2,12 8,18"></polyline>
-                        </svg>
-                        Join Early Access Waitlist
-                    </button>
-
-                    <!-- X (Twitter) Follow -->
-                    <a href="https://x.com/ChrisKahlerDev" target="_blank" rel="noopener noreferrer" class="btn-outline font-mono" style="width: 100%; justify-content: center; padding: 1.5rem 2rem; font-size: 1.25rem; text-decoration: none;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
-                        Follow Development Updates
-                    </a>
-                </form>
-                
-                <p class="font-mono" style="font-size: 0.875rem; color: var(--text-tertiary); margin-top: 1.5rem;">
+                <p style="font-family: var(--n8n-font-family); font-size: 0.875rem; color: var(--text-tertiary); margin-top: 1.5rem; text-align: center;">
                     🔒 No spam, ever. Early access only.
                 </p>
             </div>
@@ -1064,11 +907,11 @@
                     </div>
                     <span class="font-mono gradient-text-cyan-blue" style="font-size: 2rem; font-weight: 700;">NeoCortex AI</span>
                 </div>
-                
+
                 <div class="font-mono" style="color: var(--text-tertiary); text-align: center;">
                     <span>© 2024 NeoCortex AI. Supercharging Claude Code.</span>
                 </div>
-                
+
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <a href="#" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s; display: flex; align-items: center; gap: 0.5rem;" class="font-mono">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
