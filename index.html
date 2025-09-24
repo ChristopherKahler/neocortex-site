@@ -227,8 +227,20 @@
         /* Override n8n form styles */
         .n8n-form-wrapper iframe {
             width: 100% !important;
-            min-height: 500px;
+            min-height: 600px;
             border: none;
+            border-radius: 8px;
+            background: var(--surface) !important;
+        }
+
+        /* Hide iframe scrollbars */
+        .n8n-form-wrapper iframe::-webkit-scrollbar {
+            display: none;
+        }
+
+        .n8n-form-wrapper iframe {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         /* Custom n8n form styles that will be injected */
