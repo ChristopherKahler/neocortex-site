@@ -62,3 +62,6 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+
+# GoHighLevel version (not for GitHub)
+ghl/
